@@ -2,7 +2,6 @@ const express = require("express");
 const userSchema = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
-const productData = require("../utils/product.json");
 const router = express.Router();
 
 const secret_key = process.env.SECRET_KEY
@@ -49,20 +48,9 @@ router.get("/get/userInfo", VerifyToken, async (req,res) => {
        const data = req.body; 
        res.status(200).send(data);
     } catch(err) {
-        err.status(400).json("Error Fetching Product Infos"); 
+        res.status(401).json("UnAuthorized Token"); 
     }
 })
-
-router.get("/get/products", async (req,res) => {
-    try {
-        await res.status(200).json(productData);
-    } catch(err) {
-        console.log(err);
-    }
-})
-
-
-
 
 router.get("/",async (req,res) => {
     res.status(200).json("Hello"); 
